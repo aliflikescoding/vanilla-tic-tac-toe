@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=
   , initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Document</title>
+  <title>Tic Tac Toe</title>
 </head>
 <body>
   <div class="container">
-    <form class="selection-screen not-visible">
+    <form class="selection-screen">
       <h1>Select Game Settings</h1>
-        <p>please select the settings according to your liking</p>
+      <p>please select the settings according to your liking</p>
       <div class="selection-player">
         <div class="selection-picks">
           <h2>Player 1 (x)</h2>
-          <input type="text" name="player1" id="player1" placeholder="enter name (optional)">
+          <input type="text" name="player1" id="player_1_name" placeholder="enter name (optional)">
           <div class="radio-selections">
             <div>
               <input type="radio" name="choice_player_1" id="robot_1" value="robot_1">
@@ -29,7 +29,7 @@
         </div>
         <div class="selection-picks">
           <h2>Player 2 (o)</h2>
-          <input type="text" name="player2" id="player2" placeholder="enter name (optional)">
+          <input type="text" name="player2" id="player_2_name" placeholder="enter name (optional)">
           <div class="radio-selections">
             <div>
               <input type="radio" name="choice_player_2" id="robot_2" value="robot_2" checked>
@@ -52,7 +52,7 @@
         <h1 class="not-visible">start</h1>
       </div>
     </div>
-    <div class="game-screen">
+    <div class="game-screen not-visible">
       <h1>Game</h1>
       <div class="game-scoreboard">
         <div class="game-scoreboard">
