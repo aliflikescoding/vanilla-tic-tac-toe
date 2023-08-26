@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Shadows Into Light', cursive;
+  background-image: url(./assets/1971371.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* global classes */
+.not-visible {
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.selection-screen {
+  font-size: 2rem;
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.selection-screen input[type="text"] {
+  font-family: 'Shadows Into Light', cursive;
+  text-align: center;
+  border: none;
+  font-size: 1.5rem;
+  background: transparent;
+  border-bottom: 2px solid black;
+}
+
+.selection-picks > * {
+  margin-bottom: 15px;
+}
+
+.selection-screen input[type="text"]:focus {
+  outline: none;
+}
+
+.selection-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.selection-player div {
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#start_button {
+  cursor: pointer;
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'Shadows Into Light', cursive;
+  background: transparent;
+  border: none;
+}
+
+.counter {
+  position: absolute;
+  z-index: 2;
+}
+
+.counter h1 {
+  position: absolute;
+  font-size: 30rem;
+}
+
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  z-index: 4;
+}
+
+.game-area > div {
+  display: flex;
+}
+
+.game-area {
+  position: relative;
+  font-size: 4rem;
+  padding: 15px;
+}
+
+.box {
+  width: 150px;
+  height: 150px;
+  border: 2px solid black;
+  margin: 5px;
+}
+
+.box + span {
+  position: absolute;
+  top: -45px;
+  left: 60px;
+  font-size: 10rem;
+}
+
+.box:hover {
+  cursor: pointer;
+  opacity: .5;
+  background-color: lightgray;
+}
+
+.game-scoreboard {
+  display: flex;
+  margin: 0 15px;
+}
+
+/* animation class */
+.slide-up {
+  animation: slide-up .5s forwards;
+}
+
+.appear {
+  animation: appear 1s forwards;
+}
+
+.left-right {
+  animation-name: left-right;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+.scale-animation {
+  animation: scale-animation 3s infinite alternate;
+}
+
+/* animations */
+@keyframes scale-animation {
+  0% {
+    transform: scale(1);
+  }
+  
+  50% {
+    transform: scale(1.2);
+  }
+  
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes left-right {
+  0% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    /* Final state */
+    transform: rotate(3deg);
+  }
+}
