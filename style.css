@@ -114,18 +114,19 @@ body {
   padding: 15px;
 }
 
+.box > * {
+  position: absolute;
+  top: -50px;
+  left: 45px;
+  font-size: 9rem;
+}
+
 .box {
+  position: relative;
   width: 150px;
   height: 150px;
   border: 2px solid black;
   margin: 5px;
-}
-
-.box + span {
-  position: absolute;
-  top: -45px;
-  left: 60px;
-  font-size: 10rem;
 }
 
 .box:hover {
