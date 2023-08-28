@@ -33,7 +33,56 @@ const formData = (() => {
   };
 })();
 
+const doTransition = (() => {
+  const _makeGameVisible = () => {
+    let _game_screen = document.querySelector('.game-screen');
+
+    _game_screen.classList.remove('not-visible');
+  }
+
+  const transition = () => {
+    let _selection_screen = document.querySelector('.selection-screen');
+    let _three = document.querySelector('#three');
+    let _two = document.querySelector('#two');
+    let _one = document.querySelector('#one');
+    let _start = document.querySelector('#start');
+
+    _selection_screen.classList.add('not-visible');
+    _three.classList.remove('not-visible');
+    _three.classList.add('slide-up');
+    setTimeout(() => {
+      _three.classList.remove('slide-up');
+      _three.classList.add('not-visible');
+      _two.classList.remove('not-visible');
+      _two.classList.add('slide-up');
+      setTimeout(() => {
+        _two.classList.remove('slide-up');
+        _two.classList.add('not-visible');
+        _one.classList.remove('not-visible');
+        _one.classList.add('slide-up');
+        setTimeout(() => {
+          _one.classList.remove('slide-up');
+          _one.classList.add('not-visible');
+          _start.classList.remove('not-visible');
+          _start.classList.add('slide-up');
+          setTimeout(() => {
+            _start.classList.remove('slide-up');
+            _start.classList.add('not-visible');
+            _makeGameVisible();
+          }, 600);
+        }, 600);
+      }, 600);
+    }, 600);
+    
+  };
+
+  return {
+    transition,
+  }
+})();
+
 start_button.addEventListener('click', (event) => {
   event.preventDefault();
   console.log(formData.returnFromData());
+  doTransition.transition();
 });
