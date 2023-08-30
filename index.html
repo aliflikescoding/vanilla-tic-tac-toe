@@ -53,35 +53,30 @@
       </div>
     </div>
     <div class="game-screen not-visible">
-      <h1>Game</h1>
-      <div class="game-scoreboard">
-        <div class="game-scoreboard">
-          <h2>name: </h2>
-          <h2 id="socre_num_player_1">0</h2>
-        </div>
-        <div class="game-scoreboard">
-          <h2>name: </h2>
-          <h2 id="score_num_player_2">0</h2>
-        </div>
-      </div>
-      <h3>Player 1's turn</h3>
+      <h1>Tic Tac Toe</h1>
+      <h3 id="game_turn">Player 1's turn</h3>
       <div class="game-area not">
         <div>
-          <div class="box"></div>
-          <div class="box"></div>
-          <div class="box"></div>
+          <div id="1" class="box"></div>
+          <div id="2" class="box"></div>
+          <div id="3" class="box"></div>
         </div>
         <div>
-          <div class="box"></div>
-          <div class="box"></div>
-          <div class="box"></div>
+          <div id="4" class="box"></div>
+          <div id="5" class="box"></div>
+          <div id="6" class="box"></div>
         </div>
         <div>
-          <div class="box"></div>
-          <div class="box"></div>
-          <div class="box"></div>
+          <div id="7" class="box"></div>
+          <div id="8" class="box"></div>
+          <div id="9" class="box"></div>
         </div>
       </div>
+    </div>
+    <div class="win-background not-visible"></div>
+    <div class="win_screen not-visible">
+      <h1 id="win_text">It's a tie</h1>
+      <button id="button_restart">restart</button>
     </div>
   </div>
   <script src="./script.js"></script>
