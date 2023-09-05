@@ -142,6 +142,58 @@ const game = (() => {
     }
   };
 
+  const generateNumber = (spots) => {
+    var randomNumber = Math.floor(Math.random() * 9) + 1;
+  
+    if (spots.includes(randomNumber)) {
+      return generateNumber(spots);
+    } else {
+      spots.push(randomNumber);
+      return randomNumber;
+    }
+  }  
+
+  const reserve = (ranNumber, arr1) => {
+    if (ranNumber === 1) {
+      arr1[0][0] = 1;
+    }
+    else if (ranNumber === 2) {
+      arr1[0][1] = 1;
+    }
+    else if (ranNumber === 3) {
+      arr1[0][2] = 1;
+    }
+    else if (ranNumber === 4) {
+      arr1[1][0] = 1;
+    }
+    else if (ranNumber === 5) {
+      arr1[1][1] = 1;
+    }
+    else if (ranNumber === 6) {
+      arr1[1][2] = 1;
+    }
+    else if (ranNumber === 7) {
+      arr1[2][0] = 1;
+    }
+    else if (ranNumber === 8) {
+      arr1[2][1] = 1;
+    }
+    else if (ranNumber === 9) {
+      arr1[2][2] = 1;
+    }
+  }
+
+  const easyBot = (arr1, spots, symbol) => {
+    let ranNumber = generateNumber(spots);
+    reserve(ranNumber, arr1);
+    let box = document.getElementById(`${ranNumber}`);
+    let sym = document.createElement('h1');
+    sym.innerText = `${symbol}`;
+    box.appendChild(sym);
+    sym.classList.add('appear');
+    box.classList.add('pointer-none');
+  };
+
   const startGame = (object) => {
     let boxes = document.querySelectorAll('.box');
     let game_text = document.querySelector('#game_turn');
@@ -151,101 +203,281 @@ const game = (() => {
     let board2 = [[0 , 0, 0],
                  [0, 0, 0],
                  [0, 0, 0]];
-    
+    let taken_spots = [];
     let tiles = 0, win_status;
     game_text.innerText = `${object._player1_name}'s turn`;
-    boxes.forEach((box) => {
-      box.addEventListener('click', () => {
-        let sym = document.createElement('h1');
-        sym.classList.add('appear');
-        if (tiles % 2 == 0) {
+    if (object._player1_choice == 'human' && object._player2_choice == 'robot') {
+      boxes.forEach((box) => {
+        box.addEventListener('click', () => {
+          // human makes move
+          let sym = document.createElement('h1');
+          sym.classList.add('appear');
           game_text.innerText = `${object._player2_name}'s turn`;
           sym.innerText = 'x';
           tiles++;
           switch (box.id) {
-            case '1':
-              board1[0][0] = 1;
-              break;
-            case '2':
-              board1[0][1] = 1;
-              break;
-            case '3':
-              board1[0][2] = 1;
-              break;
-            case '4':
-              board1[1][0] = 1;
-              break;
-            case '5':
-              board1[1][1] = 1;
-              break;
-            case '6':
-              board1[1][2] = 1;
-              break;
-            case '7':
-              board1[2][0] = 1;
-              break;
-            case '8':
-              board1[2][1] = 1;
-              break;
-            case '9':
-              board1[2][2] = 1;
-              break;
+              case '1':
+                board1[0][0] = 1;
+                break;
+              case '2':
+                board1[0][1] = 1;
+                break;
+              case '3':
+                board1[0][2] = 1;
+                break;
+              case '4':
+                board1[1][0] = 1;
+                break;
+              case '5':
+                board1[1][1] = 1;
+                break;
+              case '6':
+                board1[1][2] = 1;
+                break;
+              case '7':
+                board1[2][0] = 1;
+                break;
+              case '8':
+                board1[2][1] = 1;
+                break;
+              case '9':
+                board1[2][2] = 1;
+                break;
           }
           win_status = check(board1, board2, object);
           if (win_status === false && tiles === 9) {
-            let win_background = document.querySelector('.win-background');
-            let win_screen = document.querySelector('.win_screen');
-            win_background.classList.remove('not-visible');
-            win_screen.classList.remove('not-visible');
-            win_screen.classList.add('appear');
+              let win_background = document.querySelector('.win-background');
+              let win_screen = document.querySelector('.win_screen');
+              win_background.classList.remove('not-visible');
+              win_screen.classList.remove('not-visible');
+              win_screen.classList.add('appear');
           }
-        }
-        else {
-          game_text.innerText = `${object._player1_name}'s turn`;
+          box.appendChild(sym);
+          box.classList.add('pointer-none');
+          taken_spots.push(parseInt(box.id));
+          // bot makes move here
+          setTimeout(function() {
+            // Code to execute after the delay
+            easyBot(board2, taken_spots, 'o');
+            game_text.innerText = `${object._player1_name}'s turn`;
+            tiles++;
+            win_status = check(board1, board2, object);
+            if (win_status === false && tiles === 9) {
+                let win_background = document.querySelector('.win-background');
+                let win_screen = document.querySelector('.win_screen');
+                win_background.classList.remove('not-visible');
+                win_screen.classList.remove('not-visible');
+                win_screen.classList.add('appear');
+            }
+          }, 250);
+        });
+      });
+    }
+    else if (object._player1_choice == 'robot' && object._player2_choice == 'human') {
+      easyBot(board1, taken_spots, 'x');
+      tiles++;
+      game_text.innerText = `${object._player2_name}'s turn`;
+      boxes.forEach((box) => {
+        box.addEventListener('click', () => {
+          // human makes move
+          let sym = document.createElement('h1');
+          sym.classList.add('appear');
+          game_text.innerText = `${object._player2_name}'s turn`;
           sym.innerText = 'o';
           tiles++;
           switch (box.id) {
-            case '1':
-              board2[0][0] = 1;
-              break;
-            case '2':
-              board2[0][1] = 1;
-              break;
-            case '3':
-              board2[0][2] = 1;
-              break;
-            case '4':
-              board2[1][0] = 1;
-              break;
-            case '5':
-              board2[1][1] = 1;
-              break;
-            case '6':
-              board2[1][2] = 1;
-              break;
-            case '7':
-              board2[2][0] = 1;
-              break;
-            case '8':
-              board2[2][1] = 1;
-              break;
-            case '9':
-              board2[2][2] = 1;
-              break;
+              case '1':
+                board2[0][0] = 1;
+                break;
+              case '2':
+                board2[0][1] = 1;
+                break;
+              case '3':
+                board2[0][2] = 1;
+                break;
+              case '4':
+                board2[1][0] = 1;
+                break;
+              case '5':
+                board2[1][1] = 1;
+                break;
+              case '6':
+                board2[1][2] = 1;
+                break;
+              case '7':
+                board2[2][0] = 1;
+                break;
+              case '8':
+                board2[2][1] = 1;
+                break;
+              case '9':
+                board2[2][2] = 1;
+                break;
           }
           win_status = check(board1, board2, object);
           if (win_status === false && tiles === 9) {
-            let win_background = document.querySelector('.win-background');
-            let win_screen = document.querySelector('.win_screen');
-            win_background.classList.remove('not-visible');
-            win_screen.classList.remove('not-visible');
-            win_screen.classList.add('appear');
+              let win_background = document.querySelector('.win-background');
+              let win_screen = document.querySelector('.win_screen');
+              win_background.classList.remove('not-visible');
+              win_screen.classList.remove('not-visible');
+              win_screen.classList.add('appear');
+          }
+          box.appendChild(sym);
+          box.classList.add('pointer-none');
+          taken_spots.push(parseInt(box.id));
+          // bot makes move here
+          game_text.innerText = `${object._player1_name}'s turn`;
+          setTimeout(function() {
+            // Code to execute after the delay
+            easyBot(board1, taken_spots, 'x');
+            tiles++;
+            win_status = check(board1, board2, object);
+            if (win_status === false && tiles === 9) {
+                let win_background = document.querySelector('.win-background');
+                let win_screen = document.querySelector('.win_screen');
+                win_background.classList.remove('not-visible');
+                win_screen.classList.remove('not-visible');
+                win_screen.classList.add('appear');
+            }
+            game_text.innerText = `${object._player2_name}'s turn`;
+          }, 250);
+        });
+      });
+    }
+    else if (object._player1_choice == 'robot' && object._player2_choice == 'robot') {
+      game_text.innerText = `${object._player1_name}'s turn`;
+      setTimeout(function() {
+        function delayedForLoop(i, max, delay) {
+          if (i <= max) {
+           console.log(i);
+            i++;
+            if (i % 2 == 0) {
+              easyBot(board1, taken_spots, 'x');
+              tiles++;
+              win_status = check(board1, board2, object);
+              if (win_status === false && tiles === 9) {
+                  let win_background = document.querySelector('.win-background');
+                  let win_screen = document.querySelector('.win_screen');
+                  win_background.classList.remove('not-visible');
+                  win_screen.classList.remove('not-visible');
+                  win_screen.classList.add('appear');
+              }
+              game_text.innerText = `${object._player2_name}'s turn`;
+            }
+            else {
+              easyBot(board2, taken_spots, 'o');
+              tiles++;
+              win_status = check(board1, board2, object);
+              if (win_status === false && tiles === 9) {
+                  let win_background = document.querySelector('.win-background');
+                  let win_screen = document.querySelector('.win_screen');
+                  win_background.classList.remove('not-visible');
+                  win_screen.classList.remove('not-visible');
+                  win_screen.classList.add('appear');
+              }
+              game_text.innerText = `${object._player1_name}'s turn`;
+            }
+            setTimeout(delayedForLoop, delay, i, max, delay);
           }
         }
-        box.appendChild(sym);
-        box.classList.add('pointer-none');
+
+        delayedForLoop(1, 9, 1000);
+      }, 3000);
+    }
+    else {
+      boxes.forEach((box) => {
+        box.addEventListener('click', () => {
+          let sym = document.createElement('h1');
+          sym.classList.add('appear');
+          if (tiles % 2 == 0) {
+            game_text.innerText = `${object._player2_name}'s turn`;
+            sym.innerText = 'x';
+            tiles++;
+            switch (box.id) {
+              case '1':
+                board1[0][0] = 1;
+                break;
+              case '2':
+                board1[0][1] = 1;
+                break;
+              case '3':
+                board1[0][2] = 1;
+                break;
+              case '4':
+                board1[1][0] = 1;
+                break;
+              case '5':
+                board1[1][1] = 1;
+                break;
+              case '6':
+                board1[1][2] = 1;
+                break;
+              case '7':
+                board1[2][0] = 1;
+                break;
+              case '8':
+                board1[2][1] = 1;
+                break;
+              case '9':
+                board1[2][2] = 1;
+                break;
+            }
+            win_status = check(board1, board2, object);
+            if (win_status === false && tiles === 9) {
+              let win_background = document.querySelector('.win-background');
+              let win_screen = document.querySelector('.win_screen');
+              win_background.classList.remove('not-visible');
+              win_screen.classList.remove('not-visible');
+              win_screen.classList.add('appear');
+            }
+          }
+          else {
+            game_text.innerText = `${object._player1_name}'s turn`;
+            sym.innerText = 'o';
+            tiles++;
+            switch (box.id) {
+              case '1':
+                board2[0][0] = 1;
+                break;
+              case '2':
+                board2[0][1] = 1;
+                break;
+              case '3':
+                board2[0][2] = 1;
+                break;
+              case '4':
+                board2[1][0] = 1;
+                break;
+              case '5':
+                board2[1][1] = 1;
+                break;
+              case '6':
+                board2[1][2] = 1;
+                break;
+              case '7':
+                board2[2][0] = 1;
+                break;
+              case '8':
+                board2[2][1] = 1;
+                break;
+              case '9':
+                board2[2][2] = 1;
+                break;
+            }
+            win_status = check(board1, board2, object);
+            if (win_status === false && tiles === 9) {
+              let win_background = document.querySelector('.win-background');
+              let win_screen = document.querySelector('.win_screen');
+              win_background.classList.remove('not-visible');
+              win_screen.classList.remove('not-visible');
+              win_screen.classList.add('appear');
+            }
+          }
+          box.appendChild(sym);
+          box.classList.add('pointer-none');
+        });
       });
-    });
+    }
   };
 
   return {
